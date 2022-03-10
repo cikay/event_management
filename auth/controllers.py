@@ -1,9 +1,11 @@
+from datetime import datetime, timedelta
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, status, HTTPException
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 from passlib.context import CryptContext
-
+from jose import jwt
 
 
 from auth.schemas import UserCreate
@@ -41,5 +43,43 @@ async def create(user_schema: UserCreate, db: Session = Depends(get_db)):
     }
 
 
+@auth_router.post("/login")
+def login(
+    credentials: OAuth2PasswordRequestForm=Depends(),
+    db: Session = Depends(get_db)
+):
+    user = db.query(UserModel).filter(
+        UserModel.username == credentials.username
+    ).first()
+
+    if not is_authenticated(credentials.password, user):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect username or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    access_token = create_access_token(
+        data={
+            "user_id": user.id,
+            "username": user.username
+        }
+    )
+    return {"access_token": access_token, "token_type": "bearer"}
+
+
 def generate_hash_password(plain_password):
     return pwd_context.hash(plain_password)
+
+
+def verify_password(plain_password, hashed_password):
+    return pwd_context.verify(plain_password, hashed_password)
+
+
+def is_authenticated(plain_password, user):
+    return user and verify_password(plain_password, user.password)
+
+
+def create_access_token(data: dict):
+    to_encode = data.copy()
+    to_encode["exp"] = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
