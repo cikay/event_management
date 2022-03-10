@@ -27,6 +27,7 @@ class EventModel(Base):
     total_tickets_count = Column(Integer, nullable=False)
     description = Column(Text, nullable=False)
     open_window = Column(DateTime, nullable=False)
+    date = Column(DateTime, nullable=False)
     created_by = Column(Integer, ForeignKey('user.id'), nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     updated_at = Column(DateTime, default=datetime.utcnow, nullable=False)
