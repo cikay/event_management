@@ -1,8 +1,8 @@
 from datetime import datetime, timedelta
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi.security import OAuth2PasswordBearer
 
 from fastapi import APIRouter, Depends, status, HTTPException
-from fastapi.security import OAuth2PasswordBearer
+from fastapi.security import OAuth2PasswordBearer, HTTPBasicCredentials
 from sqlalchemy.orm import Session
 from passlib.context import CryptContext
 from jose import jwt
@@ -45,8 +45,8 @@ async def create(user_schema: UserCreate, db: Session = Depends(get_db)):
 
 @auth_router.post("/login")
 def login(
-    credentials: OAuth2PasswordRequestForm=Depends(),
-    db: Session = Depends(get_db)
+    credentials: HTTPBasicCredentials,
+    db: Session=Depends(get_db)
 ):
     user = db.query(UserModel).filter(
         UserModel.username == credentials.username
