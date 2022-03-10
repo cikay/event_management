@@ -5,3 +5,5 @@ class UserCreate(BaseModel):
     lastname: str
     username: str
     password: str
+    is_admin: bool = False
+

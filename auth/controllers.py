@@ -35,7 +35,8 @@ async def create(user_schema: UserCreate, db: Session = Depends(get_db)):
         'username': user_model.username,
         'firstname': user_model.firstname,
         'lastname': user_model.lastname,
-        'id': user_model.id
+        'id': user_model.id,
+        'is_admin': user_model.is_admin
     }
 
 
