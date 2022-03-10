@@ -32,8 +32,8 @@ def test_create_admin():
     fields = {
         'firstname': f'Test {random_string}',
         'lastname': f'Test {random_string}',
-        'username': f'test_{random_string}',
-        'password': f'test_{random_string}',
+        'username': 'test_user',
+        'password': 'test_user_password',
         'is_admin': True
     }
     response = client.post('/users/create', json=fields)
