@@ -8,5 +8,5 @@ class EventCreate(BaseModel):
     description: str
     total_tickets_count: int
     open_window: datetime
-    date: datetime
+    start_date: datetime
 
