@@ -2,12 +2,9 @@ import random
 
 from fastapi.testclient import TestClient
 from main import app
+from tests.random_string import generate_random_string
 
 client = TestClient(app)
-
-def generate_random_string(length):
-    sample_string = 'abcdefghijklmnopqrstuvwxy_123456789'
-    return ''.join((random.choice(sample_string)) for _ in range(length))  
 
 
 def test_create_user():
