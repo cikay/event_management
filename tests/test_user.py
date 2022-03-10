@@ -27,8 +27,18 @@ def test_create_user():
     assert 'id' in data
 
 
+def test_create_admin():
+    random_string = generate_random_string(10)
+    fields = {
+        'firstname': f'Test {random_string}',
+        'lastname': f'Test {random_string}',
+        'username': f'test_{random_string}',
+        'password': f'test_{random_string}',
+        'is_admin': True
+    }
+    response = client.post('/users/create', json=fields)
     assert response.status_code == 200, response.text
     data = response.json()
-    assert data['username'] == common_fields['username']
-    assert data['is_admin'] is False
+    assert data['username'] == fields['username']
+    assert data['is_admin'] is True
     assert 'id' in data

@@ -26,6 +26,7 @@ async def create(user_schema: UserCreate, db: Session = Depends(get_db)):
         firstname=user_schema.firstname,
         lastname=user_schema.lastname,
         username=user_schema.username,
+        is_admin=user_schema.is_admin,
         password=hashed_password
     )
     db.add(user_model)
