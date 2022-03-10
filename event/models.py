@@ -28,6 +28,7 @@ class EventModel(Base):
     description = Column(Text, nullable=False)
     open_window = Column(DateTime, nullable=False)
     start_date = Column(DateTime, nullable=False)
+    end_date = Column(DateTime, nullable=False)
     created_by = Column(Integer, ForeignKey('user.id'), nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     updated_at = Column(DateTime, default=datetime.utcnow, nullable=False)
