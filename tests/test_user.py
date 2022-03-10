@@ -59,6 +59,6 @@ def test_login():
         'username': user_create_fields['username'],
         'password': user_create_fields['password']
     }
-    response = client.post('/users/login', json=login_fields)
+    response = client.post('/users/login', data=login_fields)
     data = response.json()
     assert 'access_token' in data
