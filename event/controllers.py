@@ -1,6 +1,6 @@
 
 from asyncio import events
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 
@@ -19,6 +19,12 @@ def create_event(
     db: Session=Depends(get_db),
     current_user: UserCreate=Depends(get_current_user)
 ):
+    if not current_user.is_admin:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail='Only admin users can create an event'
+        )
+
     event_model = EventModel(
         **event_schema.dict(),
         created_by=current_user.id
