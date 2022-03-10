@@ -21,7 +21,7 @@ def create_event(
 ):
     event_model = EventModel(
         **event_schema.dict(),
-        created_by=current_user['user_id']
+        created_by=current_user.id
     )
     db.add(event_model)
     db.commit()
