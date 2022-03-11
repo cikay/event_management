@@ -55,3 +55,11 @@ def update_partiall(
     db.commit()
     db.refresh(event_model)
     return event_model
+
+
+@event_router.get('/')
+def list_all(
+    current_user: UserModel=Depends(get_current_user),
+    db: Session=Depends(get_db)
+):
+    return db.query(EventModel).all()
