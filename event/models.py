@@ -30,6 +30,6 @@ class EventModel(Base):
 
     def is_within_window(self):
         remain_time = self.open_window - datetime.utcnow()
-        return remain_time > 0
+        return remain_time.total_seconds() > 0
 
 
