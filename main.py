@@ -4,9 +4,10 @@ from fastapi import FastAPI
 from db_setup import engine
 from auth.models import UserModel
 from auth.controllers import auth_router 
-from event.models import TicketModel, EventModel
+from event.models import EventModel
 from event.controllers import event_router
-
+from ticket.controllers import ticket_router
+from ticket.models import TicketModel
 
 all_models = [
     UserModel, TicketModel, EventModel
@@ -19,7 +20,7 @@ for model in all_models:
 app = FastAPI()
 
 ALL_ROUTERS = [
-    auth_router, event_router
+    auth_router, event_router, ticket_router
 ]
 
 def add_router_to_doc(routers):

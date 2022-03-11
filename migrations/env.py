@@ -7,7 +7,8 @@ from alembic import context
 
 from db_setup import Base
 from auth.models import UserModel
-from event.models import TicketModel, EventModel
+from event.models import EventModel
+from ticket.models import TicketModel
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
