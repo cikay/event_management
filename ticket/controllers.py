@@ -42,3 +42,12 @@ def list_tickets(
     return db.query(TicketModel).filter(
         TicketModel.user_id == current_user.id
     ).all()
+
+
+@ticket_router.get('/{item_id}')
+def retrieve_ticket(
+    item_id: int,
+    db: Session=Depends(get_db),
+    current_user: UserModel=Depends(get_current_user)
+):
+    return db.query(TicketModel).get(item_id)
