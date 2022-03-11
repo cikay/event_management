@@ -1,0 +1,21 @@
+version: "3.8"
+services:
+  postgres_db:
+    image: postgres:11
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    env_file:
+      - ./.env
+  web:
+    build: .
+    volumes:
+      - .:/code
+    env_file:
+      - ./.env
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres_db
+
