@@ -17,7 +17,7 @@ event_router = APIRouter(prefix='/events')
 def create_event(
     event_schema: EventCreate,
     db: Session=Depends(get_db),
-    current_user: UserCreate=Depends(get_current_user)
+    current_user: UserModel=Depends(get_current_user)
 ):
     if not current_user.is_admin:
         raise HTTPException(
