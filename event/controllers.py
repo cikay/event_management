@@ -63,3 +63,12 @@ def list_all(
     db: Session=Depends(get_db)
 ):
     return db.query(EventModel).all()
+
+
+@event_router.get('/{item_id}')
+def retrieve(
+    item_id: int,
+    current_user: UserModel=Depends(get_current_user),
+    db: Session=Depends(get_db)
+):
+    return db.query(UserModel).get(item_id)
