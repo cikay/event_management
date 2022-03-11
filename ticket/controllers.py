@@ -32,3 +32,13 @@ def create_ticket(
     db.commit()
     db.refresh(ticket_model)
     return ticket_model
+
+
+@ticket_router.get('/')
+def list_tickets(
+    db: Session=Depends(get_db),
+    current_user: UserModel=Depends(get_current_user)
+):
+    return db.query(TicketModel).filter(
+        TicketModel.user_id == current_user.id
+    ).all()
