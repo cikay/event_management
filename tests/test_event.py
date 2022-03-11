@@ -210,3 +210,44 @@ def test_admin_user_event_list():
     assert all_events_response.status_code == 200, response.text
     all_events = all_events_response.json()
     'id' in all_events[0]
+
+
+def test_admin_user_event_retreive():
+    #create user
+    user_string = generate_random_string(10)
+    username = f'test_{user_string}'
+    password = f'test_{user_string}'
+
+    user_create_fields = {
+        'firstname': f'Test {user_string}',
+        'lastname': f'Test {user_string}',
+        'username': username,
+        'password': password,
+        'is_admin': True
+    }
+    response = client.post('/users/create', json=user_create_fields)
+    assert response.status_code == 200, response.text
+    event_data = response.json()
+    assert event_data['username'] == user_create_fields['username']
+    assert event_data['is_admin'] is True
+    assert 'id' in event_data
+
+
+    #login user
+    login_fields = {
+        'username': username,
+        'password': password
+    }
+    response = client.post('/users/login', data=login_fields)
+    token_data = response.json()
+    assert 'access_token' in token_data
+
+    # retreive an event
+    headers = {
+        'Authorization': f'{token_data["token_type"]} {token_data["access_token"]}'
+    }
+    url = f'/events/{event_data["id"]}'
+    all_events_response = client.get(url, headers=headers)
+    assert all_events_response.status_code == 200, response.text
+    event = all_events_response.json()
+    'id' in event
