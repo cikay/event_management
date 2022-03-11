@@ -45,7 +45,7 @@ def update_partiall(
     if not current_user.is_admin:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
-            detail='Only admin users can create an event'
+            detail='Only admin users can update an event'
         )
 
     event_model = db.query(UserModel).get(item_id)
