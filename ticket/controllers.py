@@ -17,7 +17,8 @@ def create_ticket(
     current_user: UserModel=Depends(get_current_user)
 ):
     event_model = db.query(EventModel).get(ticket_schema.event_id)
-    if event_model.remain_tickets_count <= 0:
+
+    if event_model.remain_tickets_count <= 0 or not event_model.is_within_window():
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail='No tickets available'
