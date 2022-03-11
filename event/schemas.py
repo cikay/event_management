@@ -4,6 +4,8 @@ from datetime import datetime
 
 from pydantic import BaseModel
 
+from utils.pydantic_utils import AllOptional
+
 class EventCreate(BaseModel):
     description: str
     total_tickets_count: int
@@ -11,3 +13,5 @@ class EventCreate(BaseModel):
     start_date: datetime
     end_date: datetime
 
+class EventUpdate(EventCreate, metaclass=AllOptional):
+    pass
