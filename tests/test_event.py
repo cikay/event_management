@@ -1,6 +1,7 @@
 
 import random
 from datetime import datetime, timedelta
+from wsgiref import headers
 
 from fastapi.testclient import TestClient
 from fastapi import status
@@ -169,3 +170,43 @@ def test_admin_user_update_event():
         headers=headers
     )
     assert response.status_code == status.HTTP_200_OK
+
+
+def test_admin_user_event_list():
+    #create user
+    user_string = generate_random_string(10)
+    username = f'test_{user_string}'
+    password = f'test_{user_string}'
+
+    user_create_fields = {
+        'firstname': f'Test {user_string}',
+        'lastname': f'Test {user_string}',
+        'username': username,
+        'password': password,
+        'is_admin': True
+    }
+    response = client.post('/users/create', json=user_create_fields)
+    assert response.status_code == 200, response.text
+    data = response.json()
+    assert data['username'] == user_create_fields['username']
+    assert data['is_admin'] is True
+    assert 'id' in data
+
+
+    #login user
+    login_fields = {
+        'username': username,
+        'password': password
+    }
+    response = client.post('/users/login', data=login_fields)
+    token_data = response.json()
+    assert 'access_token' in token_data
+
+    # list events
+    headers = {
+        'Authorization': f'Bearer {token_data["access_token"]}'
+    }
+    all_events_response = client.get('/events/', data=data, headers=headers)
+    assert all_events_response.status_code == 200, response.text
+    all_events = all_events_response.json()
+    'id' in all_events[0]
