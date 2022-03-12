@@ -12,8 +12,8 @@ Create a file called `docker.env` and define the following variables
 POSTGRES_USER=your_username        # Set your own
 POSTGRES_PASSWORD=your_password    # Set your own
 POSTGRES_DB=your_database          # Needs to be created
-POSTGRES_SERVER=postgres_db        # No need to be change, the same in the docker-compose.yml
-POSTGRES_PORT=5432                 # No need to be change
+POSTGRES_SERVER=postgres_db        # No need to change, the same in the docker-compose.yml
+POSTGRES_PORT=5432                 # No need to change
 ```
 
 After that you can run the app in container by `docker-compose up`
