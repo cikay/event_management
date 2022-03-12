@@ -7,13 +7,13 @@ services:
     ports:
       - "5433:5432"
     env_file:
-      - ./.env
+      - ./docker.env
   web:
     build: .
     volumes:
       - .:/code
     env_file:
-      - ./.env
+      - ./docker.env
     ports:
       - "8000:8000"
     depends_on:
