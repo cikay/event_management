@@ -31,7 +31,7 @@ POSTGRES_PORT=5432                 # No need to change
 ```
 
 2. Create virtual environment by `python3.8 -m venv venv`
-3. Activate virtual environment. The command depens on the OS you are using
+3. Activate virtual environment. The command depends on the OS you are using
 4. Install dependencies by `pipenv install`
 5. Run the app by `uvicorn main:app --port 7000`
 
